@@ -47,7 +47,7 @@ function Intro1() {
             fill(255);
             textAlign(CENTER);
             textSize(16);
-            text("Press anywhere to start!", 0, 0);
+            text("Come back June 26th @ 8PM or June 27th at 2PM to see te show!", 0, 0);
             pop();
         }
         helpText.velocity.x = random(-1, 1);
@@ -74,17 +74,17 @@ function Intro1() {
             drawSprites(this.textGroup);
         }
     }
-    this.mousePressed = () => {
-        if (!this.started) {
-            this.started = true;
-            ramp(8, 0, 16000, 2000, (curr) => {
-                //on  instance
-                this.introGrids.length = curr;
-            }, (curr) => {
-                //on end of ramp
-                this.introGrids.removeSprites();
-                this.sceneManager.showScene(Main);
-            });
-        }
-    }
+    // this.mousePressed = () => {
+    //     if (!this.started) {
+    //         this.started = true;
+    //         ramp(8, 0, 16000, 2000, (curr) => {
+    //             //on  instance
+    //             this.introGrids.length = curr;
+    //         }, (curr) => {
+    //             //on end of ramp
+    //             this.introGrids.removeSprites();
+    //             this.sceneManager.showScene(Main);
+    //         });
+    //     }
+    // }
 }

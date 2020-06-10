@@ -52,7 +52,7 @@ function setup() {
     mgr.staticImg = staticImg;
     mgr.mainGrid = new MainGrid(staticImg);
     mgr.wire();
-    mgr.showScene(Intro1);
+    mgr.showScene(Main);
 }
 
 function windowResized() {

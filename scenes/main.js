@@ -17,17 +17,29 @@ function Main() {
                 this.innerOpacity = 0;
                 this.scale = 0.1;
                 this.video.show();
-                ramp(0.1, 1.0, 7000, 33.3333, (c) => {
-                    this.scale = c;
-                    this.video.setSize(width * c);
-                    this.video.setPosition(width * 0.5, height * 0.5);
-                    this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
-                });
+                // ramp(0.1, 1.0, 7000, 33.3333, (c) => {
+                //     this.scale = c;
+                //     this.video.setSize(width * c);
+                //     this.video.setPosition(width * 0.5, height * 0.5);
+                //     this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                // });
+                const startingMs = millis();
+                const interval = setInterval(() => {
+                    if (millis() - startingMs > 7800) {
+                        clearInterval(interval);
+                    } else {
+                        const current = map(millis()-startingMs, 0, 7800, 0.1, 1.0, true);
+                        this.scale = current;
+                        this.video.setSize(width * current);
+                        this.video.setPosition(width * 0.5, height * 0.5);
+                        this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                    }
+                }, deltaTime);
             }
             if (data === "Phase1") {
-                this.video.setSize(width);
-                this.video.setPosition(width * 0.5, height * 0.5);
                 this.scale = 1;
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*1/6);
                 this.outerOpacity = 127;
                 this.innerOpacity = 255;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
@@ -37,7 +49,7 @@ function Main() {
                 this.video.setSize(width * (1/3));
                 this.video.setPosition(width * 0.5, height * 0.5);
                 this.outerOpacity = 255;
-                this.innerOpacity = 0;
+                this.innerOpacity = 10;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
             }
             if (data === "Phase2") {
@@ -130,6 +142,39 @@ function Main() {
                     }
                 }, 1750);
             }
+
+            if (data === 1) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*1/6);
+            }
+            if (data === 2) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 3/6, height*1/6);
+            }
+            if (data === 3) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 1/6, height*1/6);
+            }
+            if (data === 4) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 1/6, height*3/6);
+            }
+            if (data === 5) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 1/6, height*5/6);
+            }
+            if (data === 6) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 3/6, height*5/6);
+            }
+            if (data === 7) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*5/6);
+            }
+            if (data === 8) {
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*3/6);
+            }
             console.log(data);
             
         });
@@ -171,4 +216,13 @@ function setCuePoints(video) {
     video.setCuePoint(convertTime(23, 0), "Phase4");
     video.setCuePoint(convertTime(26, 9), "Transition4");
     video.setCuePoint(convertTime(26, 54), "Final");
+
+    // video.setCuePoint(8, 1);
+    video.setCuePoint(10, 2);
+    video.setCuePoint(20, 3);
+    video.setCuePoint(22, 4);
+    video.setCuePoint(24, 5);
+    video.setCuePoint(26, 6);
+    video.setCuePoint(28, 7);
+    video.setCuePoint(30, 8);
 }

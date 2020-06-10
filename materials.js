@@ -217,7 +217,7 @@ class Video {
         // }, 1000)
     }
     setPosition(x, y) {
-        this.div.position(x - this.div.width/2, y - this.div.height/2)
+        this.div.position(x - this.div.width/2 + xToCenter, y - this.div.height/2 + yToCenter)
     }
     setCuePoint(t, section) {
         this.iframe.addCuePoint(t, section);

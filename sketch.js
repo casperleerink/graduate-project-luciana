@@ -1,6 +1,9 @@
 let staticImg;
 let div; 
 let iframe;
+let xToCenter = 0;
+let yToCenter = 0;
+let c;
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.jpg');
@@ -31,7 +34,14 @@ function preload() {
 
 function setup() {
     //create canvas
-    const c = createCanvas(windowWidth, windowWidth * (720/1280));
+    if (windowWidth * (720/1280) > windowHeight) {
+        c = createCanvas(windowHeight * (1280/720), windowHeight);
+    } else {
+        c = createCanvas(windowWidth, windowWidth * (720/1280));
+    }
+    xToCenter = (windowWidth - width) / 2;
+    yToCenter = (windowHeight - height) / 2;
+    c.position(xToCenter, yToCenter);
     c.style('z-index', 5);
     c.style('position', "fixed");
     rectMode(CENTER);
@@ -46,11 +56,13 @@ function setup() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowWidth * (720/1280));
+    if (windowWidth * (720/1280) > windowHeight) {
+        resizeCanvas(windowHeight * (1280/720), windowHeight);
+    } else {
+        resizeCanvas(windowWidth, windowWidth * (720/1280));
+    }
+    xToCenter = (windowWidth - width) / 2;
+    yToCenter = (windowHeight - height) / 2;
+    c.position(xToCenter, yToCenter);
 }
 
-
-
-function cuePointCallback() {
-
-}

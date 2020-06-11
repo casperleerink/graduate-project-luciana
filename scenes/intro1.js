@@ -3,8 +3,22 @@ function Intro1() {
     // this.mainGrid = this.sceneManager.mainGrid;
     this.gridAmount = 8;
     this.started = false;
+    this.blackTextOpacity = 255;
     this.introGrids = new Group();
     this.textGroup = new Group();
+    this.launchTimes = [
+        new Date(Date.UTC(2020, 5, 27, 3, 0, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 8, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 12, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 4, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 8, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 12, 0)),
+    ];
+    this.startDate = new Date(2020, 5, 10, 15, 26, 0);
+    this.ttlText = "";
+    
     this.setup = () => {
         clear();
         background(0);
@@ -15,7 +29,7 @@ function Intro1() {
         }
         for (let i = 0; i < this.gridAmount; i++) {
             new IntroGrid(
-                width * random(0, 1), 
+                width * random(0.2, 0.8), 
                 height * random(0, 1), 
                 this.scale, 
                 this.introGrids, 
@@ -30,31 +44,46 @@ function Intro1() {
         );
 
         //create text sprites
-        const welcome = createSprite(width * random(0, 1), height * random(0, 1), 30, 10);
-        welcome.draw = () => {
+        const whiteLeft = createSprite(width * 0.1, height * 0.5, width*0.17, height*0.97);
+        whiteLeft.draw = () => {
             push();
             fill(255);
-            textAlign(CENTER);
-            textSize(16);
-            text("Welcome to my graduate project!", 0, 0);
+            rect(0, 0, width * 0.17, height * 0.97);
             pop();
         }
-        welcome.velocity.x = random(-1, 1);
-        welcome.velocity.y = random(-1, 1);
-        const helpText = createSprite(width * random(0, 1), height * random(0, 1), 30, 10);
-        helpText.draw = () => {
+        whiteLeft.immovable = true;
+        const whiteRight = createSprite(width * 0.9, height * 0.5, width*0.17, height*0.97);
+        whiteRight.draw = () => {
             push();
             fill(255);
-            textAlign(CENTER);
-            textSize(16);
-            text("Come back June 26th @ 8PM or June 27th at 2PM to see te show!", 0, 0);
+            rect(0, 0, width * 0.17, height * 0.97);
             pop();
         }
-        helpText.velocity.x = random(-1, 1);
-        helpText.velocity.y = random(-1, 1);
+        whiteRight.immovable = true;
 
-        this.textGroup.add(welcome);
-        this.textGroup.add(helpText);
+        this.textGroup.add(whiteLeft);
+        this.textGroup.add(whiteRight);
+        // this.textGroup.add(helpText);
+
+
+        //SETUP the start time and automatic start.
+        for (let i = 0; i < this.launchTimes.length; i++) {
+            const lt = this.launchTimes[i];
+            const ttl = Math.floor((lt - Date.now())/1000);
+            if (ttl > 15) {
+                this.startDate = lt;
+                break;
+            }
+        }
+        const interval = setInterval(() => {
+            const ttl = Math.floor((this.startDate - Date.now())/1000);
+            this.ttlText = `The show starts in ${ttl} seconds`;
+            if (ttl <= 0) {
+                this.ttlText = "";
+                clearInterval(interval);
+                this.launch();
+            }
+        }, 1000);
     }
     this.draw = () => {
         clear();
@@ -65,26 +94,49 @@ function Intro1() {
         this.introGrids.bounce(this.introGrids);
         this.introGrids.bounce(this.sceneManager.mainGrid.s);
         bounceEdges(this.introGrids);
-        bounceEdges(this.textGroup);
+        // bounceEdges(this.textGroup);
         drawSprites(this.introGrids);
         drawSprite(this.sceneManager.mainGrid.s);
-        if (!this.started) {
-            this.introGrids.bounce(this.textGroup);
-            this.textGroup.bounce(this.sceneManager.mainGrid.s);
-            drawSprites(this.textGroup);
-        }
+        this.introGrids.bounce(this.textGroup);
+        this.textGroup.bounce(this.sceneManager.mainGrid.s);
+        drawSprites(this.textGroup);
+
+        const t = "Presented by the SFU School for the Contemporary Arts.\n\nPresented in partial fulfillment of the requirements of the Degree of Master of Fine Arts at Simon Fraser University.\n\nThis work will be presented and has been developed on the unceded traditional territories of the Coast Salish peoples of the xʷməθkwəy̓əm (Musqueam), Skwxwú7mesh (Squamish), and Səl̓ílwətaɬ (Tsleil-Waututh) Nations.;"
+        push();
+        const c = color(255);
+        c.setAlpha(this.blackTextOpacity);
+        fill(c);
+        textSize(16);
+        text(t, width*0.32, height*0.6, width*0.25, height);
+        textAlign(CENTER);
+        text(this.ttlText, width*0.5, height*0.73);
+        pop();
+        
     }
-    this.mousePressed = () => {
+    this.launch = () => {
         if (!this.started) {
             this.started = true;
+            this.textGroup.forEach((s) => {
+                s.immovable = false;
+            });
+            ramp(255, 0, 2000, 33, (c) => {
+                this.blackTextOpacity = c;
+            });
             ramp(8, 0, 16000, 2000, (curr) => {
                 //on  instance
                 this.introGrids.length = curr;
             }, (curr) => {
                 //on end of ramp
                 this.introGrids.removeSprites();
-                this.sceneManager.showScene(Main);
+                ramp(0.1, 1.0, 8000, deltaTime, (c) => {
+                    this.sceneManager.mainGrid.update(c, 1/3, 255, 255);
+                }, () => {
+                    this.sceneManager.showScene(Main);
+                })
             });
         }
+    }
+    this.mousePressed = () => {
+        this.launch();
     }
 }

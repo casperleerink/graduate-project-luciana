@@ -1,6 +1,6 @@
 function Main() {
     this.showMainGrid = true;
-    this.scale = 0.1;
+    this.scale = 1;
     this.innerOpacity = 0;
     this.outerOpacity = 127;
     this.video = new Video("422917757");
@@ -15,32 +15,16 @@ function Main() {
             if (data === "Intro2") {
                 this.outerOpacity = 127;
                 this.innerOpacity = 0;
-                this.scale = 0.1;
-                this.video.show();
-                // ramp(0.1, 1.0, 7000, 33.3333, (c) => {
-                //     this.scale = c;
-                //     this.video.setSize(width * c);
-                //     this.video.setPosition(width * 0.5, height * 0.5);
-                //     this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
-                // });
-                const startingMs = millis();
-                const interval = setInterval(() => {
-                    if (millis() - startingMs > 7800) {
-                        clearInterval(interval);
-                    } else {
-                        const current = map(millis()-startingMs, 0, 7800, 0.1, 1.0, true);
-                        this.scale = current;
-                        this.video.setSize(width * current);
-                        this.video.setPosition(width * 0.5, height * 0.5);
-                        this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
-                    }
-                }, deltaTime);
+                this.scale = 1;
+                this.video.setSize(width);
+                this.video.setPosition(width * 0.5, height * 0.5);
+                this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
             }
             if (data === "Phase1") {
                 this.scale = 1;
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 5/6, height*1/6);
-                this.outerOpacity = 127;
+                this.outerOpacity = 160;
                 this.innerOpacity = 255;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
             }

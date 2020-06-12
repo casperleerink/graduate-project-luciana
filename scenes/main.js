@@ -6,7 +6,7 @@ function Main() {
     this.video = new Video("422917757");
     setCuePoints(this.video);
     this.setup = () => {
-        this.video.iframe.setCurrentTime(convertTime(14, 23));
+        // this.video.iframe.setCurrentTime(convertTime(14, 23));
         this.video.iframe.play();
         this.video.iframe.on('cuepoint', ({data}) => {
             this.video.show();

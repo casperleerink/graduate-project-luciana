@@ -37,7 +37,7 @@ function setup() {
     mgr.landing2 = landing2;
     mgr.mainGrid = new MainGrid(staticImg);
     mgr.wire();
-    mgr.showScene(Main);
+    mgr.showScene(Intro1);
 }
 
 function windowResized() {

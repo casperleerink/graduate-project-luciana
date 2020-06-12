@@ -5,9 +5,13 @@ let xToCenter = 0;
 let yToCenter = 0;
 let c;
 let font;
+let landing1;
+let landing2;
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.jpg');
+    landing1 = loadImage('assets/images/landing1.png');
+    landing2 = loadImage('assets/images/landing2.png');
     font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
 }
 
@@ -29,9 +33,11 @@ function setup() {
     //SCENE MANAGER
     const mgr = new SceneManager();
     mgr.staticImg = staticImg;
+    mgr.landing1 = landing1;
+    mgr.landing2 = landing2;
     mgr.mainGrid = new MainGrid(staticImg);
     mgr.wire();
-    mgr.showScene(Intro1);
+    mgr.showScene(Main);
 }
 
 function windowResized() {

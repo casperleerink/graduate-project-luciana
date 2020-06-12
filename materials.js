@@ -100,6 +100,7 @@ class MainGrid {
         this.outerRectsEmpty = [false, false, false, false, false, false, false, false];
         this.middleRectColor = -1;
         this.outerRectStrokeWeight = 0.5;
+        this.currentVideoRect = 8;
     }
     update(
         mainScale, gap, innerOpacity, outerOpacity, infected=false, middleRectColor=-1) {
@@ -126,6 +127,9 @@ class MainGrid {
     updateStrokeWeight(v) {
         this.outerRectStrokeWeight = v;
     }
+    updateVideoRect(num) {
+        this.currentVideoRect = num;
+    }
     appearance() {
         this.s.draw = () => {
             for (let i = 0; i < 8; i++) {
@@ -136,7 +140,7 @@ class MainGrid {
                     0, //y
                     this.w * this.outerRectScale, //width relative to main grid rect
                     this.h * this.outerRectScale, //height relative to main grid rect
-                    this.outerOpacity, //sets opacity for outer rectangles
+                    i === this.currentVideoRect ? this.outerOpacity : 255, //sets opacity for outer rectangles
                     this.infected, //sets static image 'infecting' the outer rectangles
                     this.outerRectsEmpty[i], //no color in these rectangles
                     this.outerRectStrokeWeight, //the svisibility of the stroke after color has left

@@ -1,5 +1,5 @@
 function Intro1() {
-    this.scale = 0.1;
+    this.scale = 0.05;
     // this.mainGrid = this.sceneManager.mainGrid;
     this.gridAmount = 8;
     this.started = false;
@@ -29,7 +29,7 @@ function Intro1() {
         }
         for (let i = 0; i < this.gridAmount; i++) {
             new IntroGrid(
-                width * random(0.2, 0.8), 
+                width * random(0.36, 0.64), 
                 height * random(0, 1), 
                 this.scale, 
                 this.introGrids, 
@@ -44,19 +44,19 @@ function Intro1() {
         );
 
         //create text sprites
-        const whiteLeft = createSprite(width * 0.1, height * 0.5, width*0.17, height*0.97);
+        const whiteLeft = createSprite(width * 0.18, height * 0.5, width*0.36, height*0.97);
         whiteLeft.draw = () => {
             push();
-            fill(255);
-            rect(0, 0, width * 0.17, height * 0.97);
+            // fill(255);
+            image(this.sceneManager.landing2, 0, 0, width * 0.36, height*0.97);
             pop();
         }
         whiteLeft.immovable = true;
-        const whiteRight = createSprite(width * 0.9, height * 0.5, width*0.17, height*0.97);
+        const whiteRight = createSprite(width * 0.82, height * 0.5, width*0.36, height*0.97);
         whiteRight.draw = () => {
             push();
             fill(255);
-            rect(0, 0, width * 0.17, height * 0.97);
+            image(this.sceneManager.landing1, 0, 0, width * 0.36, height*0.97);
             pop();
         }
         whiteRight.immovable = true;
@@ -77,7 +77,7 @@ function Intro1() {
         }
         const interval = setInterval(() => {
             const ttl = Math.floor((this.startDate - Date.now())/1000);
-            this.ttlText = `The show starts in ${ttl} seconds`;
+            this.ttlText = `The show will start in:\n${ttl} seconds`;
             if (ttl <= 0) {
                 this.ttlText = "";
                 clearInterval(interval);
@@ -107,9 +107,9 @@ function Intro1() {
         c.setAlpha(this.blackTextOpacity);
         fill(c);
         textSize(16);
-        text(t, width*0.32, height*0.6, width*0.25, height);
+        text(t, width*0.5, height*0.55, width*0.25, height);
         textAlign(CENTER);
-        text(this.ttlText, width*0.5, height*0.73);
+        text(this.ttlText, width*0.5, height*0.6);
         pop();
         
     }
@@ -128,7 +128,7 @@ function Intro1() {
             }, (curr) => {
                 //on end of ramp
                 this.introGrids.removeSprites();
-                ramp(0.1, 1.0, 8000, deltaTime, (c) => {
+                ramp(0.05, 1.0, 8000, deltaTime, (c) => {
                     this.sceneManager.mainGrid.update(c, 1/3, 255, 255);
                 }, () => {
                     this.sceneManager.showScene(Main);

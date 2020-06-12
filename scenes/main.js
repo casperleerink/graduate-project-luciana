@@ -6,17 +6,15 @@ function Main() {
     this.video = new Video("422917757");
     setCuePoints(this.video);
     this.setup = () => {
-        // this.video.setSize(0);
-        // this.video.iframe.play();
-        // this.video.iframe.setCurrentTime(convertTime(20, 20));
-        this.video.iframe.play()
+        this.video.iframe.setCurrentTime(convertTime(14, 23));
+        this.video.iframe.play();
         this.video.iframe.on('cuepoint', ({data}) => {
             this.video.show();
-            if (data === "Intro2") {
-                this.outerOpacity = 127;
+            if (data === "Begin") {
+                this.outerOpacity = 255;
                 this.innerOpacity = 0;
                 this.scale = 1;
-                this.video.setSize(width);
+                this.video.setSize(width * (1/3));
                 this.video.setPosition(width * 0.5, height * 0.5);
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
             }
@@ -24,9 +22,10 @@ function Main() {
                 this.scale = 1;
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 5/6, height*1/6);
-                this.outerOpacity = 160;
+                this.outerOpacity = 180;
                 this.innerOpacity = 255;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                this.sceneManager.mainGrid.updateVideoRect(0);
             }
             if (data === "Transition1" || data === "Transition2" || data === "Transition3") {
                 this.scale = 1;
@@ -35,22 +34,25 @@ function Main() {
                 this.outerOpacity = 255;
                 this.innerOpacity = 10;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                this.sceneManager.mainGrid.updateVideoRect(8);
             }
             if (data === "Phase2") {
                 this.scale = 1;
-                this.video.setSize(width);
-                this.video.setPosition(width * 0.5, height * 0.5);
-                this.outerOpacity = 90;
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*1/6);
+                this.outerOpacity = 110;
                 this.innerOpacity = 255;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                this.sceneManager.mainGrid.updateVideoRect(0);
             }
             if (data === "Phase3") {
                 this.scale = 1;
-                this.video.setSize(width);
-                this.video.setPosition(width * 0.5, height * 0.5);
+                this.video.setSize(width * 1/3);
+                this.video.setPosition(width * 5/6, height*1/6);
                 this.outerOpacity = 60;
                 this.innerOpacity = 255;
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, this.outerOpacity);
+                this.sceneManager.mainGrid.updateVideoRect(0);
             }
             if (data === "Intersession1") {
                 this.video.setSize(width);
@@ -127,37 +129,47 @@ function Main() {
                 }, 1750);
             }
 
+
+            //video placement
             if (data === 1) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 5/6, height*1/6);
+                this.sceneManager.mainGrid.updateVideoRect(0);
             }
             if (data === 2) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 3/6, height*1/6);
+                this.sceneManager.mainGrid.updateVideoRect(1);
             }
             if (data === 3) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 1/6, height*1/6);
+                this.sceneManager.mainGrid.updateVideoRect(2);
             }
             if (data === 4) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 1/6, height*3/6);
+                this.sceneManager.mainGrid.updateVideoRect(3);
             }
             if (data === 5) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 1/6, height*5/6);
+                this.sceneManager.mainGrid.updateVideoRect(4);
             }
             if (data === 6) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 3/6, height*5/6);
+                this.sceneManager.mainGrid.updateVideoRect(5);
             }
             if (data === 7) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 5/6, height*5/6);
+                this.sceneManager.mainGrid.updateVideoRect(6);
             }
             if (data === 8) {
                 this.video.setSize(width * 1/3);
                 this.video.setPosition(width * 5/6, height*3/6);
+                this.sceneManager.mainGrid.updateVideoRect(7);
             }
             console.log(data);
             
@@ -187,7 +199,7 @@ function Main() {
 }
 
 function setCuePoints(video) {
-    video.setCuePoint(0, "Intro2");
+    video.setCuePoint(0, "Begin");
     video.setCuePoint(8, "Phase1");
     video.setCuePoint(convertTime(3, 46), "Transition1");
     video.setCuePoint(convertTime(4, 4), "Phase2");

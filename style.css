@@ -28,3 +28,17 @@ iframe {
     left: 0;
     /* height: auto; */
 }
+.container {
+    margin: 0 3%;
+}
+.endImages {
+    width: 100%;
+}
+
+a {
+    color: #eee;
+}
+p {
+    /* width: 100%; */
+    text-align: center;
+}

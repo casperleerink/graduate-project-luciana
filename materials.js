@@ -1,7 +1,7 @@
 
 //outer rectangles
 class Rect {
-    constructor(id, gap, x, y, w, h, opacity=255, infected=false, empty=false, strokeWeight=0.5) {
+    constructor(id, gap, x, y, w, h, opacity=255, infected=0, empty=false, strokeWeight=0.5) {
         this.id = id;
         this.gap = gap;
         this.x = x;//rect center xpos
@@ -28,12 +28,12 @@ class Rect {
     display() {
         push();
         const c = getColor(this.id);
-        if (this.infected) {
-            c.setAlpha(this.opacity * 0.5);
+        if (this.infected > 0) {
+            c.setAlpha(this.opacity);
             fill(c);
             noStroke();
             rect(this.x, this.y, this.w, this.h);
-            tint(255, this.opacity * 0.5)
+            tint(255, this.infected);
             image(staticImg, this.x, this.y, this.w, this.h);
         } else if (this.empty) {
             noFill();
@@ -96,14 +96,14 @@ class MainGrid {
         this.static = img;
         this.innerOpacity = 255;
         this.outerOpacity = 255;
-        this.infected = false;
+        this.infected = 0;
         this.outerRectsEmpty = [false, false, false, false, false, false, false, false];
         this.middleRectColor = -1;
         this.outerRectStrokeWeight = 0.5;
         this.currentVideoRect = 8;
     }
     update(
-        mainScale, gap, innerOpacity, outerOpacity, infected=false, middleRectColor=-1) {
+        mainScale, gap, innerOpacity, outerOpacity, infected=0, middleRectColor=-1) {
         //runs every draw
         //update main scaling if necessary
         if (mainScale != this.mainScale) {
@@ -124,6 +124,9 @@ class MainGrid {
     updateRectEmpty(i, b) {
         this.outerRectsEmpty[i] = b;
     }
+    allRectsEmpty(v) {
+        this.outerRectsEmpty = [v, v, v, v, v, v, v, v];
+    }
     updateStrokeWeight(v) {
         this.outerRectStrokeWeight = v;
     }
@@ -133,18 +136,34 @@ class MainGrid {
     appearance() {
         this.s.draw = () => {
             for (let i = 0; i < 8; i++) {
-                const r = new Rect(
-                    i, //index
-                    this.gap * this.w, //gap (position deviation from center)
-                    0, //x
-                    0, //y
-                    this.w * this.outerRectScale, //width relative to main grid rect
-                    this.h * this.outerRectScale, //height relative to main grid rect
-                    i === this.currentVideoRect ? this.outerOpacity : 255, //sets opacity for outer rectangles
-                    this.infected, //sets static image 'infecting' the outer rectangles
-                    this.outerRectsEmpty[i], //no color in these rectangles
-                    this.outerRectStrokeWeight, //the svisibility of the stroke after color has left
-                );
+                let r;
+                if (this.currentVideoRect === 8) {
+                    r = new Rect(
+                        i, //index
+                        this.gap * this.w, //gap (position deviation from center)
+                        0, //x
+                        0, //y
+                        this.w * this.outerRectScale, //width relative to main grid rect
+                        this.h * this.outerRectScale, //height relative to main grid rect
+                        this.outerOpacity, //sets opacity for outer rectangles
+                        this.infected, //sets static image 'infecting' the outer rectangles
+                        this.outerRectsEmpty[i], //no color in these rectangles
+                        this.outerRectStrokeWeight, //the svisibility of the stroke after color has left
+                    );
+                } else {
+                    r = new Rect(
+                        i, //index
+                        this.gap * this.w, //gap (position deviation from center)
+                        0, //x
+                        0, //y
+                        this.w * this.outerRectScale, //width relative to main grid rect
+                        this.h * this.outerRectScale, //height relative to main grid rect
+                        i === this.currentVideoRect ? this.outerOpacity : 255, //sets opacity for outer rectangles
+                        this.infected, //sets static image 'infecting' the outer rectangles
+                        this.outerRectsEmpty[i], //no color in these rectangles
+                        this.outerRectStrokeWeight, //the svisibility of the stroke after color has left
+                    );
+                }
                 r.display();
             }
             const middleRect = new MiddleRect(

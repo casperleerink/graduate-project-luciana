@@ -1,4 +1,4 @@
-function Intro1() {
+function Intro() {
     this.scale = 0.05;
     // this.mainGrid = this.sceneManager.mainGrid;
     this.gridAmount = 8;
@@ -124,7 +124,7 @@ function Intro1() {
             });
             ramp(8, 0, 16000, 2000, (curr) => {
                 //on  instance
-                this.introGrids.length = curr;
+                this.introGrids.length = Math.round(curr);
             }, (curr) => {
                 //on end of ramp
                 this.introGrids.removeSprites();

@@ -28,33 +28,19 @@ function getColor(num) {
 }
 
 
+const intervals = [];
 function ramp(start, end, duration, interval, onInstance, onComplete) {
-    let curr = start;
-    const distance = end - start;
+    const startTime = millis();
     const setInt = setInterval(() => {
-        if (start < end) { //when ascending
-            if (curr >= end) {
-                typeof onComplete === 'function' && onComplete(curr);
-                clearInterval(setInt);
-            } else {
-                curr += distance / (duration/interval);
-                curr = curr > end ? end : curr;
-                typeof onInstance === 'function' && onInstance(curr);
-                // onInstance(curr);
-            }
-        } else { //when descending
-            if (curr <= end) {
-                typeof onComplete === 'function' && onComplete(curr);
-                clearInterval(setInt);
-            } else {
-                curr += distance / (duration/interval);
-                curr = curr < end ? end : curr;
-                typeof onInstance === 'function' && onInstance(curr);
-            }
+        const cTime = millis() - startTime;
+        if (cTime > duration) {
+            clearInterval(setInt);
+            typeof onComplete === 'function' && onComplete(end);
+        } else {
+            typeof onInstance === 'function' && onInstance(map(cTime, 0, duration, start, end));
         }
-
     }, interval);
-
+    intervals.push(setInt);
 }
 
 function bounceEdges(g) {

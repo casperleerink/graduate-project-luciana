@@ -9,7 +9,7 @@ let landing1;
 let landing2;
 
 function preload() {
-    staticImg = loadImage('assets/images/static-noise.jpg');
+    staticImg = loadImage('assets/images/static-noise.png');
     landing1 = loadImage('assets/images/landing1.png');
     landing2 = loadImage('assets/images/landing2.png');
     font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
@@ -37,7 +37,7 @@ function setup() {
     mgr.landing2 = landing2;
     mgr.mainGrid = new MainGrid(staticImg);
     mgr.wire();
-    mgr.showScene(Intro1);
+    mgr.showScene(Intro);
 }
 
 function windowResized() {

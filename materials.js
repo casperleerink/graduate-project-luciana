@@ -74,7 +74,9 @@ class MiddleRect {
             fill(c);
             rect(this.x, this.y, this.w, this.h)
         } else {
+            fill(255);
             image(this.img, this.x, this.y, this.w, this.h);
+            // rect(this.x, this.y, this.w, this.h);
         }
         pop();
     }
@@ -153,7 +155,7 @@ class MainGrid {
                 } else {
                     r = new Rect(
                         i, //index
-                        this.gap * this.w, //gap (position deviation from center)
+                        this.gap * this.w - 0.001, //gap (position deviation from center)
                         0, //x
                         0, //y
                         this.w * this.outerRectScale, //width relative to main grid rect

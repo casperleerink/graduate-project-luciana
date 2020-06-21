@@ -250,4 +250,8 @@ class Video {
     show() {
         this.div.show();
     }
+    loadNewVideo(id) {
+        this.iframe.loadVideo(id);
+    }
+    
 }

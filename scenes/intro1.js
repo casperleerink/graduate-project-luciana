@@ -8,15 +8,16 @@ function Intro() {
     this.textGroup = new Group();
     this.launchTimes = [
         new Date(Date.UTC(2020, 5, 27, 3, 0, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 2, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 6, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 8, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 10, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 12, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 4, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 8, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 12, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 14, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 15, 0)),
     ];
-    this.startDate = new Date(2020, 5, 10, 15, 26, 0);
+    this.startDate;
     this.ttlText = "";
     
     this.setup = () => {
@@ -43,47 +44,61 @@ function Intro() {
             255,
         );
 
-        //create text sprites
-        const whiteLeft = createSprite(width * 0.18, height * 0.5, width*0.36, height*0.97);
-        whiteLeft.draw = () => {
-            push();
-            // fill(255);
-            image(this.sceneManager.landing2, 0, 0, width * 0.36, height*0.97);
-            pop();
-        }
-        whiteLeft.immovable = true;
-        const whiteRight = createSprite(width * 0.82, height * 0.5, width*0.36, height*0.97);
-        whiteRight.draw = () => {
-            push();
-            fill(255);
-            image(this.sceneManager.landing1, 0, 0, width * 0.36, height*0.97);
-            pop();
-        }
-        whiteRight.immovable = true;
-
-        this.textGroup.add(whiteLeft);
-        this.textGroup.add(whiteRight);
-        // this.textGroup.add(helpText);
 
 
         //SETUP the start time and automatic start.
         for (let i = 0; i < this.launchTimes.length; i++) {
             const lt = this.launchTimes[i];
             const ttl = Math.floor((lt - Date.now())/1000);
-            if (ttl > 15) {
+            if (ttl > 10) {
                 this.startDate = lt;
                 break;
             }
         }
-        const interval = setInterval(() => {
-            const ttl = Math.floor((this.startDate - Date.now())/1000);
-            this.ttlText = `The show will start in:\n${ttl} seconds`;
-            if (ttl <= 0) {
-                this.ttlText = "";
-                clearInterval(interval);
-                this.launch();
+        if (this.startDate) {
+            //in case of friday show
+            //create text sprites
+            const whiteLeft = createSprite(width * 0.2, height * 0.5, width*0.4, height*0.97);
+            whiteLeft.draw = () => {
+                push();
+                // fill(255);
+                image(this.sceneManager.landing2, 0, 0, width * 0.4, height*0.97);
+                pop();
             }
-        }, 1000);
+            whiteLeft.immovable = true;
+            const whiteRight = createSprite(width * 0.8, height * 0.5, width*0.4, height*0.97);
+            whiteRight.draw = () => {
+                push();
+                fill(255);
+                image(this.sceneManager.landing1, 0, 0, width * 0.4, height*0.97);
+                pop();
+            }
+            whiteRight.immovable = true;
+
+            this.textGroup.add(whiteLeft);
+            this.textGroup.add(whiteRight);
+
+            //check and display time till launch every second
+            const interval = setInterval(() => {
+                const ttl = Math.floor((this.startDate - Date.now())/1000);
+                this.ttlText = `The show will start in:\n${secondsToDhms(ttl)}`;
+                if (ttl <= 0) {
+                    this.ttlText = "";
+                    clearInterval(interval);
+                    this.launch();
+                }
+            }, 1000);
+        } else {
+            //in case of saturday show:
+            this.ttlText = "Thank you for your interest in Figure 8!\n For the Saturday show, there will be a viewing party on Zoom.\nTo join, click on the link below and email luci_fortes@hotmail.com with your name and affiliation.";
+            const b = createButton('Join zoom call!');
+            b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + width*0.15);
+            // b.center();
+            b.mousePressed(() => {
+                window.location.href = 'https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09';
+            });
+            b.style('z-index', 10);
+        }
     }
     this.draw = () => {
         clear();
@@ -94,20 +109,17 @@ function Intro() {
         this.introGrids.bounce(this.introGrids);
         this.introGrids.bounce(this.sceneManager.mainGrid.s);
         bounceEdges(this.introGrids);
-        // bounceEdges(this.textGroup);
         drawSprites(this.introGrids);
         drawSprite(this.sceneManager.mainGrid.s);
         this.introGrids.bounce(this.textGroup);
         this.textGroup.bounce(this.sceneManager.mainGrid.s);
         drawSprites(this.textGroup);
 
-        const t = "Presented by the SFU School for the Contemporary Arts.\n\nPresented in partial fulfillment of the requirements of the Degree of Master of Fine Arts at Simon Fraser University.\n\nThis work will be presented and has been developed on the unceded traditional territories of the Coast Salish peoples of the xʷməθkwəy̓əm (Musqueam), Skwxwú7mesh (Squamish), and Səl̓ílwətaɬ (Tsleil-Waututh) Nations.;"
         push();
         const c = color(255);
         c.setAlpha(this.blackTextOpacity);
         fill(c);
-        textSize(16);
-        text(t, width*0.5, height*0.55, width*0.25, height);
+        textSize(18);
         textAlign(CENTER);
         text(this.ttlText, width*0.5, height*0.6);
         pop();
@@ -136,7 +148,25 @@ function Intro() {
             });
         }
     }
-    this.mousePressed = () => {
-        this.launch();
-    }
+
+    //only in test version
+    // this.mousePressed = () => {
+    //     this.launch();
+    // }
+}
+
+
+
+function secondsToDhms(seconds) {
+    seconds = Number(seconds);
+    var d = Math.floor(seconds / (3600*24));
+    var h = Math.floor(seconds % (3600*24) / 3600);
+    var m = Math.floor(seconds % 3600 / 60);
+    var s = Math.floor(seconds % 60);
+    
+    var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") + "\n" : "";
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") + "\n" : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") + "\n" : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") + "\n" : "";
+    return dDisplay + hDisplay + mDisplay + sDisplay;
 }

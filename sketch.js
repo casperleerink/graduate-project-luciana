@@ -10,9 +10,9 @@ let landing2;
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.png');
-    landing1 = loadImage('assets/images/landing1.png');
-    landing2 = loadImage('assets/images/landing2.png');
-    font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
+    landing1 = loadImage('assets/images/A1.png');
+    landing2 = loadImage('assets/images/A2.png');
+    // font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
 }
 
 function setup() {
@@ -29,7 +29,7 @@ function setup() {
     c.style('position', "fixed");
     rectMode(CENTER);
     imageMode(CENTER);
-    textFont(font);
+    // textFont(font);
     //SCENE MANAGER
     const mgr = new SceneManager();
     mgr.staticImg = staticImg;

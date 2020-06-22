@@ -7,7 +7,7 @@ function Intro() {
     this.introGrids = new Group();
     this.textGroup = new Group();
     this.launchTimes = [
-        new Date(Date.UTC(2020, 5, 27, 3, 0, 0)),
+        new Date(Date.UTC(2020, 5, 21, 3, 0, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 2, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 6, 0)),
@@ -90,7 +90,7 @@ function Intro() {
             }, 1000);
         } else {
             //in case of saturday show:
-            this.ttlText = "Thank you for your interest in Figure 8!\n For the Saturday show, there will be a viewing party on Zoom.\nTo join, click on the link below and email luci_fortes@hotmail.com with your name and affiliation.";
+            this.ttlText = "Thank you for your interest in Figure 8!\n For the Saturday show, there will be a viewing party on Zoom.\nTo join, click on the link below.";
             const b = createButton('Join zoom call!');
             b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + width*0.15);
             // b.center();
@@ -140,7 +140,7 @@ function Intro() {
             }, (curr) => {
                 //on end of ramp
                 this.introGrids.removeSprites();
-                ramp(0.05, 1.0, 8000, deltaTime, (c) => {
+                ramp(0.05, 0.8, 8000, deltaTime, (c) => {
                     this.sceneManager.mainGrid.update(c, 1/3, 255, 255);
                 }, () => {
                     this.sceneManager.showScene(Main);

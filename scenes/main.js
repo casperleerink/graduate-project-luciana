@@ -1,6 +1,6 @@
 function Main() {
     this.showMainGrid = true;
-    this.scale = 1;
+    this.scale = 0.8;
     this.innerOpacity = 255;
     this.outerOpacity = 255;
     this.video = new Video("431146770");
@@ -43,12 +43,17 @@ function Main() {
         this.video.iframe.play();
         this.video.iframe.on('play', () => {
             this.video.show(); 
-            setVideoSizeAndPosition(this.video, width, width * 0.5, height * 0.5);
-            ramp(0.33333, 1.0, 5000, deltaTime, (current) => {
-                const opacity = map(current, 0.33333, 1.0, 255, 0);
-                this.sceneManager.mainGrid.update(this.scale, current, opacity, this.outerOpacity);
+            setVideoSizeAndPosition(this.video, width*0.8, width * 0.5, height * 0.5);
+            ramp(255, 0, 2000, deltaTime, (current) => {
+                this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, current);
             }, () => {
-                this.showMainGrid = false;
+                ramp(255, 0, 6000, deltaTime, (current) => {
+                    const innerScale = map(current, 255, 0, 1/3, 1);
+                    this.sceneManager.mainGrid.innerRectScale = innerScale;
+                    this.sceneManager.mainGrid.update(this.scale, 1/3, current, 0);
+                }, () => {
+                    this.showMainGrid = false;
+                });
             });
         })
         // this.video.iframe.on('cuepoint', ({data}) => {
@@ -238,7 +243,7 @@ function Main() {
         
         this.video.iframe.on('ended', () => {
             this.showMainGrid = true;
-            this.sceneManager.mainGrid.innerRectScale = 1;
+            // this.sceneManager.mainGrid.innerRectScale = 1;
             this.sceneManager.mainGrid.update(this.scale, 1/3, 255, 0);
             this.video.div.hide();
             this.video.iframe.off('play');
@@ -262,22 +267,27 @@ function Main() {
         });
 
 
-        //Sections! cuepoints
-        this.sections.forEach((s, i) => {
-            // this.video.setCuePoint(this.sectionTimes[i], s);
+        // //Sections! cuepoints
+        // this.sections.forEach((s, i) => {
+        //     // this.video.setCuePoint(this.sectionTimes[i], s);
 
-            //Create buttons for test playback control..
-            const b = createButton(s);
-            // b.position(10, height * (i/this.sections.length));
-            b.mousePressed(() => {
-                intervals.forEach(clearInterval);
-                this.video.iframe.setCurrentTime(this.sectionTimes[i]);
-                this.video.iframe.play();
-            });
-            this.buttons.push(b);
-        });
+        //     //Create buttons for test playback control..
+        //     const b = createButton(s);
+        //     // b.position(10, height * (i/this.sections.length));
+        //     b.mousePressed(() => {
+        //         intervals.forEach(clearInterval);
+        //         this.video.iframe.setCurrentTime(this.sectionTimes[i]);
+        //         this.video.iframe.play();
+        //     });
+        //     this.buttons.push(b);
+        // });
         // setCuePoints(this.video);
         this.video.iframe.play(); //Start the video!
+        const b = createButton("Go to end video");
+        b.mousePressed(() => {
+            this.video.iframe.setCurrentTime(convertTime(34, 10));
+            this.video.iframe.play();
+        });
     }
 
     this.draw = () => {

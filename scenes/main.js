@@ -3,7 +3,7 @@ function Main() {
     this.scale = 0.8;
     this.innerOpacity = 255;
     this.outerOpacity = 255;
-    this.video = new Video("431146770");
+    this.video = new Video("431645794");
     this.buttons = [];
     this.sections = [
         "Begin",
@@ -250,13 +250,15 @@ function Main() {
             this.video.iframe.off('ended');
 
             //new video
-            this.video.iframe.loadVideo("431146656");
+            this.video.iframe.loadVideo("431648577");
             this.video.iframe.on('play', () => {
                 this.video.div.show();
             });
             this.video.iframe.on('ended', () => {
                 this.video.div.hide();
-                window.location.href = '/ending.html';
+                setTimeout(() => {
+                    window.location.href = '/ending.html';
+                }, 1000);
             });
             setTimeout(() => {
                 this.sceneManager.mainGrid.update(this.scale, 1/3, 0, 0);
@@ -299,15 +301,6 @@ function Main() {
     }
 }
 
-function setCuePoints(video) {
-    video.setCuePoint(10, 2);
-    video.setCuePoint(20, 3);
-    video.setCuePoint(22, 4);
-    video.setCuePoint(24, 5);
-    video.setCuePoint(26, 6);
-    video.setCuePoint(28, 7);
-    video.setCuePoint(30, 8);
-}
 
 function setVideoSizeAndPosition(video, size, x, y) {
     video.setSize(size);

@@ -40,12 +40,15 @@ function Main() {
 
     //Initial setup
     this.setup = () => {
+        this.sceneManager.mainGrid.update(this.scale, 1/3, 255, 255);
         this.video.iframe.play();
         this.video.iframe.on('play', () => {
+            this.video.setOpacity(0);
             this.video.show(); 
             setVideoSizeAndPosition(this.video, width*0.8, width * 0.5, height * 0.5);
             ramp(255, 0, 2000, deltaTime, (current) => {
                 this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, current);
+                this.video.setOpacity(map(current, 255, 0, 0.0, 1.0));
             }, () => {
                 ramp(255, 0, 6000, deltaTime, (current) => {
                     const innerScale = map(current, 255, 0, 1/3, 1);
@@ -55,7 +58,7 @@ function Main() {
                     this.showMainGrid = false;
                 });
             });
-        })
+        });
         // this.video.iframe.on('cuepoint', ({data}) => {
         //     this.video.show();
         //     if (data === "Begin") {
@@ -252,7 +255,11 @@ function Main() {
             //new video
             this.video.iframe.loadVideo("431648577");
             this.video.iframe.on('play', () => {
+                this.video.setOpacity(0);
                 this.video.div.show();
+                ramp(0.0, 1.0, 500, deltaTime, (current) => {
+                    this.video.setOpacity(current);
+                });
             });
             this.video.iframe.on('ended', () => {
                 this.video.div.hide();
@@ -267,23 +274,6 @@ function Main() {
                 this.video.iframe.play();
             }, 4000);
         });
-
-
-        // //Sections! cuepoints
-        // this.sections.forEach((s, i) => {
-        //     // this.video.setCuePoint(this.sectionTimes[i], s);
-
-        //     //Create buttons for test playback control..
-        //     const b = createButton(s);
-        //     // b.position(10, height * (i/this.sections.length));
-        //     b.mousePressed(() => {
-        //         intervals.forEach(clearInterval);
-        //         this.video.iframe.setCurrentTime(this.sectionTimes[i]);
-        //         this.video.iframe.play();
-        //     });
-        //     this.buttons.push(b);
-        // });
-        // setCuePoints(this.video);
         this.video.iframe.play(); //Start the video!
         const b = createButton("Go to end video");
         b.mousePressed(() => {

@@ -236,10 +236,6 @@ class Video {
     }
     setSize(w) {
         this.div.size(w, w * (720/1280));
-        // setTimeout(() => {
-        //     console.log(this.div.elt.firstChild);
-        //     // this.div.elt.firstChild.width = 200;
-        // }, 1000)
     }
     setPosition(x, y) {
         this.div.position(x - this.div.width/2 + xToCenter, y - this.div.height/2 + yToCenter)
@@ -253,5 +249,7 @@ class Video {
     loadNewVideo(id) {
         this.iframe.loadVideo(id);
     }
-    
+    setOpacity(opacity) {
+        this.div.style('opacity', opacity);
+    }
 }

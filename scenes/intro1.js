@@ -62,7 +62,7 @@ function Intro() {
             whiteLeft.draw = () => {
                 push();
                 // fill(255);
-                image(this.sceneManager.landing2, 0, 0, width * 0.4, height*0.97);
+                image(this.sceneManager.landing1, 0, 0, width * 0.4, height*0.97);
                 pop();
             }
             whiteLeft.immovable = true;
@@ -70,7 +70,7 @@ function Intro() {
             whiteRight.draw = () => {
                 push();
                 fill(255);
-                image(this.sceneManager.landing1, 0, 0, width * 0.4, height*0.97);
+                image(this.sceneManager.landing2, 0, 0, width * 0.4, height*0.97);
                 pop();
             }
             whiteRight.immovable = true;

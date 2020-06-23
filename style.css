@@ -31,9 +31,15 @@ iframe {
 .container {
     margin: 0 3%;
 }
-.endImages {
-    float: left;
+
+.image-container {
     width: 50%;
+    margin: 0 auto;
+}
+.endImages {
+    /* display: block; */
+    /* float: left; */
+    width: 100%;
     padding: 20px;
 }
 

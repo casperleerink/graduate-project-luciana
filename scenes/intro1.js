@@ -23,7 +23,8 @@ function Intro() {
     this.setup = () => {
         clear();
         background(0);
-        console.log("intro1");
+        console.log("intro");
+        // alert("Please use a new browser to watch this performance!");
         const velocity = {
             x: random(1, 3),
             y: random(1, 3),
@@ -93,7 +94,6 @@ function Intro() {
             this.ttlText = "Thank you for your interest in Figure 8!\n For the Saturday show, there will be a viewing party on Zoom.\nTo join, click on the link below.";
             const b = createButton('Join zoom call!');
             b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + width*0.15);
-            // b.center();
             b.mousePressed(() => {
                 window.location.href = 'https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09';
             });

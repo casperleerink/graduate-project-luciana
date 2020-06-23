@@ -7,11 +7,13 @@ let c;
 let font;
 let landing1;
 let landing2;
+let thankYou
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.png');
     landing1 = loadImage('assets/images/A1.png');
     landing2 = loadImage('assets/images/A2.png');
+    thankYou = loadImage('assets/images/thank-you.png');
     // font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
 }
 
@@ -35,6 +37,7 @@ function setup() {
     mgr.staticImg = staticImg;
     mgr.landing1 = landing1;
     mgr.landing2 = landing2;
+    mgr.thankYou = thankYou;
     mgr.mainGrid = new MainGrid(staticImg);
     mgr.wire();
     mgr.showScene(Intro);

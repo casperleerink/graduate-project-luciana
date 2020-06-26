@@ -145,6 +145,9 @@ function Intro() {
     this.launch = () => {
         if (!this.started) {
             this.started = true;
+            window.onbeforeunload = () => {
+                return 'Are you sure you want to leave? You might not be able to join the performance again.';
+            }
             this.textGroup.forEach((s) => {
                 s.immovable = false;
             });

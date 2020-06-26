@@ -7,7 +7,9 @@ function Intro() {
     this.introGrids = new Group();
     this.textGroup = new Group();
     this.launchTimes = [
-        new Date(Date.UTC(2020, 5, 21, 3, 0, 0)),
+        //friday 5:30pm
+        new Date(Date.UTC(2020, 5, 27, 0, 30, 0)),
+        //friday 8pm
         new Date(Date.UTC(2020, 5, 27, 3, 2, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 6, 0)),
@@ -16,7 +18,18 @@ function Intro() {
         new Date(Date.UTC(2020, 5, 27, 3, 12, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 14, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 15, 0)),
+        //saturday 2pm
+        new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 2, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 4, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 6, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 8, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 10, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 12, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 14, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 15, 0)),
     ];
+    this.saturdayTime = new Date(Date.UTC(2020, 5, 27, 4, 0, 0));
     this.startDate;
     this.ttlText = "";
     
@@ -89,15 +102,19 @@ function Intro() {
                     this.launch();
                 }
             }, 1000);
+
+            //add zoom link if saturday time
+            if (Date.now() > this.saturdayTime) {
+                const b = createButton('Join zoom call!');
+                b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + height*0.25);
+                b.mousePressed(() => {
+                    window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
+                });
+                b.style('z-index', 10);
+            }
         } else {
             //in case of saturday show:
-            this.ttlText = "Thank you for your interest in Figure 8!\n For the Saturday show, there will be a viewing party on Zoom.\nTo join, click on the link below.";
-            const b = createButton('Join zoom call!');
-            b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + width*0.15);
-            b.mousePressed(() => {
-                window.location.href = 'https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09';
-            });
-            b.style('z-index', 10);
+            this.ttlText = "Thank you for your interest in Figure 8!\n Now the live shows are done, this website will soon be updated so the show can be viewed on demand.";
         }
     }
     this.draw = () => {
@@ -150,9 +167,9 @@ function Intro() {
     }
 
     //only in test version
-    this.mousePressed = () => {
-        this.launch();
-    }
+    // this.mousePressed = () => {
+    //     this.launch();
+    // }
 }
 
 

@@ -11,8 +11,8 @@ let thankYou
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.png');
-    landing1 = loadImage('assets/images/A1.png');
-    landing2 = loadImage('assets/images/A2.png');
+    landing1 = loadImage('assets/images/A1-font2.png');
+    landing2 = loadImage('assets/images/A2-font2.png');
     thankYou = loadImage('assets/images/thank-you.png');
     // font = loadFont('assets/bodoni/BodoniFLF-Roman.ttf');
 }

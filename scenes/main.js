@@ -264,11 +264,11 @@ function Main() {
             }, 3000);
         });
 
-        const b = createButton("Go to end video");
-        b.mousePressed(() => {
-            this.video.iframe.setCurrentTime(convertTime(34, 10));
-            this.video.iframe.play();
-        });
+        // const b = createButton("Go to end video");
+        // b.mousePressed(() => {
+        //     this.video.iframe.setCurrentTime(convertTime(34, 10));
+        //     this.video.iframe.play();
+        // });
     }
 
     this.draw = () => {

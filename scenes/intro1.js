@@ -177,9 +177,9 @@ function Intro() {
     }
 
     //only in test version
-    this.mousePressed = () => {
-        this.launch();
-    }
+    // this.mousePressed = () => {
+    //     this.launch();
+    // }
 }
 
 

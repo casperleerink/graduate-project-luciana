@@ -41,12 +41,18 @@ function Main() {
 
     //Initial setup
     this.setup = () => {
+        console.log("Main");
+        
         this.sceneManager.mainGrid.update(this.scale, 1/3, 255, 255);
         this.video.iframe.addCuePoint(0.1, "start");
         this.video.iframe.ready().then(() => {
+            console.log("Play!");
+            
             this.video.iframe.play();
         });
         this.video.iframe.on('play', () => {
+            console.log("Playing!");
+            
             // if (data === "start") {
                 this.video.setOpacity(0);
                 this.video.show(); 

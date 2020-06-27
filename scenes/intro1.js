@@ -6,32 +6,35 @@ function Intro() {
     this.blackTextOpacity = 255;
     this.introGrids = new Group();
     this.textGroup = new Group();
+    this.rndSec = random([0, 2, 4, 6, 8, 10]);
+    console.log(this.rndSec);
+    
     this.launchTimes = [
         //friday 5:30pm
-        new Date(Date.UTC(2020, 5, 27, 0, 30, 0)),
+        new Date(Date.UTC(2020, 5, 27, 0, 30, )),
         new Date(Date.UTC(2020, 5, 27, 0, 45, 0)),
         new Date(Date.UTC(2020, 5, 27, 0, 55, 0)),
         new Date(Date.UTC(2020, 5, 27, 0, 57, 0)),
         new Date(Date.UTC(2020, 5, 27, 0, 59, 0)),
         //friday 8pm
-        new Date(Date.UTC(2020, 5, 27, 3, 2, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 6, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 8, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 10, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 12, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 14, 0)),
-        new Date(Date.UTC(2020, 5, 27, 3, 15, 0)),
+        new Date(Date.UTC(2020, 5, 27, 3, 2, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 4, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 6, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 8, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 10, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 12, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 14, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 3, 15, this.rndSec)),
         //saturday 2pm
-        new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 2, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 4, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 6, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 8, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 10, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 12, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 14, 0)),
-        new Date(Date.UTC(2020, 5, 27, 21, 15, 0)),
+        new Date(Date.UTC(2020, 5, 27, 21, 0, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 2, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 4, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 6, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 8, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 10, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 12, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 14, this.rndSec)),
+        new Date(Date.UTC(2020, 5, 27, 21, 15, this.rndSec)),
     ];
     this.saturdayTime = new Date(Date.UTC(2020, 5, 27, 4, 0, 0));
     this.startDate;
@@ -164,7 +167,7 @@ function Intro() {
             }, (curr) => {
                 //on end of ramp
                 this.introGrids.removeSprites();
-                ramp(0.05, 0.8, 8000, deltaTime, (c) => {
+                ramp(0.05, 0.8, Math.floor(random(7000, 9000)), deltaTime, (c) => {
                     this.sceneManager.mainGrid.update(c, 1/3, 255, 255);
                 }, () => {
                     this.sceneManager.showScene(Main);

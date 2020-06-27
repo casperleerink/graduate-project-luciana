@@ -9,6 +9,7 @@ function Intro() {
     this.launchTimes = [
         //friday 5:30pm
         new Date(Date.UTC(2020, 5, 27, 0, 30, 0)),
+        new Date(Date.UTC(2020, 5, 27, 0, 45, 0)),
         //friday 8pm
         new Date(Date.UTC(2020, 5, 27, 3, 2, 0)),
         new Date(Date.UTC(2020, 5, 27, 3, 4, 0)),

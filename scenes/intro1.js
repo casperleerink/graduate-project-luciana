@@ -52,12 +52,12 @@ function Intro() {
         }, 1000);
 
         //add zoom link if saturday time
-        this.zoomButton = createButton('Join zoom call!');
-        this.zoomButton.position(windowWidth*0.5 - this.zoomButton.size().width/2, (windowHeight*0.5 - this.zoomButton.size().height/2) + height*0.25);
-        this.zoomButton.mousePressed(() => {
-            window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
-        });
-        this.zoomButton.style('z-index', 10);
+        // this.zoomButton = createButton('Join zoom call!');
+        // this.zoomButton.position(windowWidth*0.5 - this.zoomButton.size().width/2, (windowHeight*0.5 - this.zoomButton.size().height/2) + height*0.25);
+        // this.zoomButton.mousePressed(() => {
+        //     window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
+        // });
+        // this.zoomButton.style('z-index', 10);
 
         this.sceneManager.mainGrid.s.onMousePressed = () => {
             if (this.launchReady) {
@@ -93,7 +93,6 @@ function Intro() {
     this.launch = () => {
         if (!this.started) {
             this.started = true;
-            this.zoomButton.remove();
             window.addEventListener('beforeunload', unloadEvent);
             this.textGroup.forEach((s) => {
                 s.immovable = false;

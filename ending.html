@@ -9,8 +9,8 @@
 <body>
     <div class="container">
         <div id="zoomInfo">
-            <p>In a couple of minutes, please join me for a post-show social on Zoom!</p>
-            <p><a href="https://sfu.zoom.us/j/96255050886?pwd=TVFkOHgrWGF0dzhJY0tLRFB2Wk1ydz09">Click here to be taken to the zoom call.</a></p>
+            <p>If you are not in the Zoom call yet, join us for a post-show social!</p>
+            <p><a href="https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09">Click here to be taken to the zoom call.</a></p>
         </div>
         <div class="image-container">
             <!-- <img class="endImages" src="assets/images/D1.png"> -->
@@ -19,9 +19,8 @@
     </div>
     <script>
         const zoomInfo = document.getElementById('zoomInfo');
-        const after = new Date(Date.UTC(2020, 5, 27, 0, 30, 0));
-        const before = new Date(Date.UTC(2020, 5, 27, 1, 30, 0));
-        if (before - Date.now() > 0 && after - Date.now() < 0) {
+        const ending = new Date(Date.UTC(2020, 5, 28, 1, 0, 0));;
+        if (Date.now() > ending) {
             zoomInfo.innerHTML = "";
         }
     </script>

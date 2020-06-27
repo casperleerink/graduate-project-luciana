@@ -6,38 +6,6 @@ function Main() {
     this.outerOpacity = 255;
     this.video = new Video("431645794");
     this.buttons = [];
-    this.sections = [
-        "Begin",
-        "Phase1",
-        "Transition1",
-        "Phase2",
-        "Transition2",
-        "Phase3",
-        "Transition3",
-        "Static1",
-        "Static2",
-        "Static3",
-        "Intersession",
-        "Silence",
-        "Gilda",
-        "Final",
-    ];
-    this.sectionTimes = [
-        0, //begin
-        8, //p1
-        convertTime(3, 46),
-        convertTime(4, 4), //p2
-        convertTime(14, 28),
-        convertTime(14, 44), //p3
-        convertTime(20, 25),
-        convertTime(20, 40), //static
-        convertTime(20, 48),
-        convertTime(20, 56),
-        convertTime(21, 4), //intersession
-        convertTime(21, 40), //silence
-        convertTime(22, 4), //gilda
-        convertTime(34, 10), //final
-    ];
 
     //Initial setup
     this.setup = () => {
@@ -52,24 +20,21 @@ function Main() {
         });
         this.video.iframe.on('play', () => {
             console.log("Playing!");
-            
-            // if (data === "start") {
-                this.video.setOpacity(0);
-                this.video.show(); 
-                setVideoSizeAndPosition(this.video, width*0.8, width * 0.5, height * 0.5);
-                ramp(255, 0, 3000, deltaTime, (current) => {
-                    this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, current);
-                    this.video.setOpacity(map(current, 255, 0, 0.0, 1.0));
+            this.video.setOpacity(0);
+            this.video.show(); 
+            setVideoSizeAndPosition(this.video, width*0.8, width * 0.5, height * 0.5);
+            ramp(255, 0, 3000, deltaTime, (current) => {
+                this.sceneManager.mainGrid.update(this.scale, 1/3, this.innerOpacity, current);
+                this.video.setOpacity(map(current, 255, 0, 0.0, 1.0));
+            }, () => {
+                ramp(255, 0, 5000, deltaTime, (current) => {
+                    const innerScale = map(current, 255, 0, 1/3, 1);
+                    this.sceneManager.mainGrid.innerRectScale = innerScale;
+                    this.sceneManager.mainGrid.update(this.scale, 1/3, current, 0);
                 }, () => {
-                    ramp(255, 0, 5000, deltaTime, (current) => {
-                        const innerScale = map(current, 255, 0, 1/3, 1);
-                        this.sceneManager.mainGrid.innerRectScale = innerScale;
-                        this.sceneManager.mainGrid.update(this.scale, 1/3, current, 0);
-                    }, () => {
-                        this.showMainGrid = false;
-                    });
+                    this.showMainGrid = false;
                 });
-            // }
+            });
         });
         
         this.video.iframe.on('ended', () => {
@@ -127,6 +92,11 @@ function Main() {
             this.video.div.hide();
             this.showThanks = true;
             setTimeout(() => {
+                window.removeEventListener("beforeunload", unloadEvent);
+                window.addEventListener('beforeunload', function (e) {
+                    // the absence of a returnValue property on the event will guarantee the browser unload happens
+                    delete e['returnValue'];
+                });
                 window.location.href = '/ending.html';
             }, 4000);
         });

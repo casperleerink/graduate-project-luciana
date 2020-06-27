@@ -6,49 +6,21 @@ function Intro() {
     this.blackTextOpacity = 255;
     this.introGrids = new Group();
     this.textGroup = new Group();
-    this.rndSec = random([0, 2, 4, 6, 8, 10]);
-    console.log(this.rndSec);
-    
-    this.launchTimes = [
-        //friday 5:30pm
-        new Date(Date.UTC(2020, 5, 27, 0, 30, )),
-        new Date(Date.UTC(2020, 5, 27, 0, 45, 0)),
-        new Date(Date.UTC(2020, 5, 27, 0, 55, 0)),
-        new Date(Date.UTC(2020, 5, 27, 0, 57, 0)),
-        new Date(Date.UTC(2020, 5, 27, 0, 59, 0)),
-        //friday 8pm
-        new Date(Date.UTC(2020, 5, 27, 3, 2, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 4, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 6, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 8, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 10, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 12, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 14, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 3, 15, this.rndSec)),
-        //saturday 2pm
-        new Date(Date.UTC(2020, 5, 27, 21, 0, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 2, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 4, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 6, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 8, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 10, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 12, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 14, this.rndSec)),
-        new Date(Date.UTC(2020, 5, 27, 21, 15, this.rndSec)),
-    ];
+    // this.launchTimes = [
+    //     //saturday 2pm
+    //     new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
+    // ];
     this.saturdayTime = new Date(Date.UTC(2020, 5, 27, 4, 0, 0));
-    this.startDate;
+    this.startDate = new Date(Date.UTC(2020, 5, 27, 21, 0, 0));
     this.ttlText = "";
+    this.interval;
+    this.launchReady = false;
+    this.zoomButton;
     
     this.setup = () => {
         clear();
         background(0);
         console.log("intro");
-        // alert("Please use a new browser to watch this performance!");
-        const velocity = {
-            x: random(1, 3),
-            y: random(1, 3),
-        }
         for (let i = 0; i < this.gridAmount; i++) {
             new IntroGrid(
                 width * random(0.36, 0.64), 
@@ -65,63 +37,32 @@ function Intro() {
             255,
         );
 
+        //create images on sides
+        createTextSprites(this.textGroup, this.sceneManager.landing1, this.sceneManager.landing2);
 
-
-        //SETUP the start time and automatic start.
-        for (let i = 0; i < this.launchTimes.length; i++) {
-            const lt = this.launchTimes[i];
-            const ttl = Math.floor((lt - Date.now())/1000);
-            if (ttl > 10) {
-                this.startDate = lt;
-                break;
+        //check and display time till launch every second
+        this.interval = setInterval(() => {
+            const ttl = Math.floor((this.startDate - Date.now())/1000);
+            this.ttlText = `The show will start in:\n${secondsToDhms(ttl)}`;
+            if (ttl <= 0) {
+                this.ttlText = "Click in the center rectangle to begin";
+                clearInterval(this.interval);
+                this.launchReady = true;
             }
-        }
-        if (this.startDate) {
-            //in case of friday show
-            //create text sprites
-            const whiteLeft = createSprite(width * 0.2, height * 0.5, width*0.4, height*0.97);
-            whiteLeft.draw = () => {
-                push();
-                // fill(255);
-                image(this.sceneManager.landing1, 0, 0, width * 0.4, height*0.97);
-                pop();
-            }
-            whiteLeft.immovable = true;
-            const whiteRight = createSprite(width * 0.8, height * 0.5, width*0.4, height*0.97);
-            whiteRight.draw = () => {
-                push();
-                fill(255);
-                image(this.sceneManager.landing2, 0, 0, width * 0.4, height*0.97);
-                pop();
-            }
-            whiteRight.immovable = true;
+        }, 1000);
 
-            this.textGroup.add(whiteLeft);
-            this.textGroup.add(whiteRight);
+        //add zoom link if saturday time
+        this.zoomButton = createButton('Join zoom call!');
+        this.zoomButton.position(windowWidth*0.5 - this.zoomButton.size().width/2, (windowHeight*0.5 - this.zoomButton.size().height/2) + height*0.25);
+        this.zoomButton.mousePressed(() => {
+            window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
+        });
+        this.zoomButton.style('z-index', 10);
 
-            //check and display time till launch every second
-            const interval = setInterval(() => {
-                const ttl = Math.floor((this.startDate - Date.now())/1000);
-                this.ttlText = `The show will start in:\n${secondsToDhms(ttl)}`;
-                if (ttl <= 0) {
-                    this.ttlText = "";
-                    clearInterval(interval);
-                    this.launch();
-                }
-            }, 1000);
-
-            //add zoom link if saturday time
-            if (Date.now() > this.saturdayTime) {
-                const b = createButton('Join zoom call!');
-                b.position(windowWidth*0.5 - b.size().width/2, (windowHeight*0.5 - b.size().height/2) + height*0.25);
-                b.mousePressed(() => {
-                    window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
-                });
-                b.style('z-index', 10);
+        this.sceneManager.mainGrid.s.onMousePressed = () => {
+            if (this.launchReady) {
+                this.launch();   
             }
-        } else {
-            //in case of saturday show:
-            this.ttlText = "Thank you for your interest in Figure 8!\n Now the live shows are done, this website will soon be updated so the show can be viewed on demand.";
         }
     }
     this.draw = () => {
@@ -145,16 +86,15 @@ function Intro() {
         fill(c);
         textSize(18);
         textAlign(CENTER);
-        text(this.ttlText, width*0.5, height*0.6);
+        text(this.ttlText, width*0.5, height*0.65, width*0.2, height*0.2);
         pop();
         
     }
     this.launch = () => {
         if (!this.started) {
             this.started = true;
-            window.onbeforeunload = () => {
-                return 'Are you sure you want to leave? You might not be able to join the performance again.';
-            }
+            this.zoomButton.remove();
+            window.addEventListener('beforeunload', unloadEvent);
             this.textGroup.forEach((s) => {
                 s.immovable = false;
             });
@@ -178,8 +118,17 @@ function Intro() {
 
     //only in test version
     // this.mousePressed = () => {
-    //     this.launch();
+    //     if (this.launchReady) {
+    //         this.launch();   
+    //     }
     // }
+    this.keyTyped = () => {
+        if (key === " ") {
+            this.launchReady = true;
+            this.ttlText = "Click in the center rectangle to begin";
+            clearInterval(this.interval);
+        }
+    }
 }
 
 
@@ -196,4 +145,32 @@ function secondsToDhms(seconds) {
     var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") + "\n" : "";
     var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") + "\n" : "";
     return dDisplay + hDisplay + mDisplay + sDisplay;
+}
+
+function unloadEvent(e) {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = 'Are you sure you want to leave the performance?';
+}
+
+function createTextSprites(textGroup, landing1, landing2) {
+    //create text sprites
+    const whiteLeft = createSprite(width * 0.2, height * 0.5, width*0.4, height*0.97);
+    whiteLeft.draw = () => {
+        push();
+        image(landing1, 0, 0, width * 0.4, height*0.97);
+        pop();
+    }
+    whiteLeft.immovable = true;
+    const whiteRight = createSprite(width * 0.8, height * 0.5, width*0.4, height*0.97);
+    whiteRight.draw = () => {
+        push();
+        image(landing2, 0, 0, width * 0.4, height*0.97);
+        pop();
+    }
+    whiteRight.immovable = true;
+
+    textGroup.add(whiteLeft);
+    textGroup.add(whiteRight);
 }

@@ -1,15 +1,10 @@
 function Intro() {
     this.scale = 0.05;
-    // this.mainGrid = this.sceneManager.mainGrid;
     this.gridAmount = 8;
     this.started = false;
     this.blackTextOpacity = 255;
     this.introGrids = new Group();
     this.textGroup = new Group();
-    // this.launchTimes = [
-    //     //saturday 2pm
-    //     new Date(Date.UTC(2020, 5, 27, 21, 0, 0)),
-    // ];
     this.saturdayTime = new Date(Date.UTC(2020, 5, 27, 4, 0, 0));
     this.startDate = new Date(Date.UTC(2020, 5, 27, 21, 0, 0));
     this.ttlText = "";
@@ -51,19 +46,18 @@ function Intro() {
             }
         }, 1000);
 
-        //add zoom link if saturday time
-        // this.zoomButton = createButton('Join zoom call!');
-        // this.zoomButton.position(windowWidth*0.5 - this.zoomButton.size().width/2, (windowHeight*0.5 - this.zoomButton.size().height/2) + height*0.25);
-        // this.zoomButton.mousePressed(() => {
-        //     window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
-        // });
-        // this.zoomButton.style('z-index', 10);
-
         this.sceneManager.mainGrid.s.onMousePressed = () => {
             if (this.launchReady) {
                 this.launch();   
             }
         }
+        const button = createButton('Watch video directly');
+        button.position(width*0.5 +xToCenter, height*0.25+yToCenter);
+        button.center('horizontal');
+        button.mousePressed(() => {
+            window.location.href = "https://vimeo.com/431645794";
+        });
+        button.style('z-index', 10);
     }
     this.draw = () => {
         clear();

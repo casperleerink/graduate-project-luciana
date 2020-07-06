@@ -9,16 +9,6 @@ let landing1;
 let landing2;
 let thankYou;
 let warningBeforeUnload = true;
-// window.addEventListener('beforeunload', function (e) {
-//     // Cancel the event
-//     e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-//     // Chrome requires returnValue to be set
-//     e.returnValue = 'Are you sure you want to leave the performance?';
-// });
-// window.addEventListener('beforeunload', function (e) {
-//     // the absence of a returnValue property on the event will guarantee the browser unload happens
-//     delete e['returnValue'];
-//   });
 
 function preload() {
     staticImg = loadImage('assets/images/static-noise.png');

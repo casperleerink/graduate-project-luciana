@@ -51,20 +51,14 @@ function Intro() {
             }
         }, 1000);
 
-        //add zoom link if saturday time
-        // this.zoomButton = createButton('Join zoom call!');
-        // this.zoomButton.position(windowWidth*0.5 - this.zoomButton.size().width/2, (windowHeight*0.5 - this.zoomButton.size().height/2) + height*0.25);
-        // this.zoomButton.mousePressed(() => {
-        //     window.open('https://sfu.zoom.us/j/98405089150?pwd=NThHS0dIdUNXYkZSQXoyYkQ1NlRhUT09', "_blank");
-        // });
-        // this.zoomButton.style('z-index', 10);
-
         this.sceneManager.mainGrid.s.onMousePressed = () => {
             if (this.launchReady) {
                 this.launch();   
             }
         }
     }
+
+
     this.draw = () => {
         clear();
         background(0);
@@ -93,6 +87,8 @@ function Intro() {
     this.launch = () => {
         if (!this.started) {
             this.started = true;
+            const copyrightBtn = document.getElementById('copyrightButton');
+            copyrightBtn.style.display = 'none';
             window.addEventListener('beforeunload', unloadEvent);
             this.textGroup.forEach((s) => {
                 s.immovable = false;
@@ -114,13 +110,6 @@ function Intro() {
             });
         }
     }
-
-    //only in test version
-    // this.mousePressed = () => {
-    //     if (this.launchReady) {
-    //         this.launch();   
-    //     }
-    // }
     this.keyTyped = () => {
         if (key === " ") {
             this.launchReady = true;
@@ -172,4 +161,15 @@ function createTextSprites(textGroup, landing1, landing2) {
 
     textGroup.add(whiteLeft);
     textGroup.add(whiteRight);
+}
+
+function openWindow() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+
+
+function myPopup() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
 }

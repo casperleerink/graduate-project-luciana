@@ -73,13 +73,13 @@ button:hover {
   position: fixed;
   display: inline-block;
   cursor: pointer;
-  top: 80%;
-  left: 45%;
+  bottom: 0;
+  left: 0%;
   z-index: 11;
   background-color: white;
   border-radius: 5px;
   border: 1px solid black;
-  opacity: 0.8;
+  opacity: 0.95;
   color: black;
 }
 
@@ -94,23 +94,11 @@ button:hover {
   position: absolute;
   z-index: 111;
   bottom: 125%;
-  margin-left: -200px;
+  margin-left: 0px;
   min-width: 400px;
 }
 .popuptext > p {
     font-size: 1rem;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
 }
 
 /* Toggle this class when clicking on the popup container (hide and show the popup) */

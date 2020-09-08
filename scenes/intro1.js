@@ -58,6 +58,7 @@ function Intro() {
             window.location.href = "https://vimeo.com/431645794";
         });
         button.style('z-index', 10);
+        this.zoomButton = button;
     }
 
 
@@ -91,6 +92,7 @@ function Intro() {
             this.started = true;
             const copyrightBtn = document.getElementById('copyrightButton');
             copyrightBtn.style.display = 'none';
+            this.zoomButton.hide();
             window.addEventListener('beforeunload', unloadEvent);
             this.textGroup.forEach((s) => {
                 s.immovable = false;
